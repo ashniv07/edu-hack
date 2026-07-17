@@ -1,16 +1,15 @@
 {
   "name": "hackyay-ai-tutor",
   "displayName": "ai-tutor",
-  "description": "An IDE plugin that intercepts runtime errors and opens a tutor panel inside VS Code.",
+  "description": "A VS Code extension that runs Python files, captures runtime errors, and opens an AI Tutor panel inside the editor.",
   "version": "0.0.1",
-  "private": true,
   "engines": {
     "vscode": "^1.125.0"
   },
   "categories": [
     "Education"
   ],
-  "main": "./apps/extension/dist/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
@@ -53,15 +52,40 @@
       }
     }
   },
-  "workspaces": [
-    "apps/extension",
-    "apps/backend"
-  ],
   "scripts": {
-    "compile": "npm run extension:compile",
-    "watch": "npm run extension:watch",
-    "extension:compile": "npm --workspace apps/extension run compile",
-    "extension:watch": "npm --workspace apps/extension run watch",
-    "backend:check-types": "npm --workspace apps/backend run check-types"
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "24.x",
+    "@types/vscode": "^1.125.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.0.0",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.5.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1"
+  },
+  "overrides": {
+    "diff": "^8.0.4",
+    "serialize-javascript": "^7.0.6"
+  },
+  "dependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   }
 }

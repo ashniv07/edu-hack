@@ -1,0 +1,16 @@
+{
+  "name": "@hackyay-ai-tutor/backend",
+  "version": "0.0.1",
+  "private": true,
+  "description": "LangGraph-ready backend scaffold for AI Tutor.",
+  "type": "module",
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "build": "tsc -p tsconfig.json",
+    "dev": "node --watch --experimental-strip-types src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "24.x",
+    "typescript": "^6.0.3"
+  }
+}

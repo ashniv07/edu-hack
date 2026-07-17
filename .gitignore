@@ -3,3 +3,15 @@ dist
 node_modules
 .vscode-test/
 *.vsix
+coverage
+.eslintcache
+*.log
+*.tsbuildinfo
+.DS_Store
+.idea/
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+env/
