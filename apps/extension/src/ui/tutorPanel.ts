@@ -70,9 +70,7 @@ class TutorSidebarProvider implements vscode.WebviewViewProvider {
 			return;
 		}
 
-		this.view.title = this.state.insight?.primaryIssue?.exceptionType
-			? `AI Tutor: ${this.state.insight.primaryIssue.exceptionType}`
-			: 'AI Tutor';
+		this.view.title = this.state.insight?.primaryIssue?.exceptionType ?? 'Overview';
 		this.view.webview.html = getWebviewHtml(this.view.webview, this.extensionUri, this.state);
 	}
 }
