@@ -1,7 +1,7 @@
 {
   "name": "hackyay-ai-tutor",
   "displayName": "ai-tutor",
-  "description": "An IDE plugin that intercepts runtime errors and opens a tutor panel inside VS Code.",
+  "description": "An IDE plugin that intercepts runtime errors and opens an AI Tutor view inside VS Code.",
   "version": "0.0.1",
   "private": true,
   "engines": {
@@ -12,6 +12,25 @@
   ],
   "main": "./apps/extension/dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ai-tutor",
+          "title": "AI Tutor",
+          "icon": "apps/extension/resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "ai-tutor": [
+        {
+          "id": "aiTutorView",
+          "name": "AI Tutor",
+          "type": "webview",
+          "icon": "apps/extension/resources/icon.svg"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "hackyay-ai-tutor.runCurrentPythonFile",
@@ -19,7 +38,7 @@
       },
       {
         "command": "hackyay-ai-tutor.openTutorPanel",
-        "title": "AI Tutor: Open Tutor Panel"
+        "title": "AI Tutor: Show AI Tutor"
       }
     ],
     "menus": {

@@ -5,7 +5,7 @@ This repository is a small monorepo with two apps:
 - `apps/extension`: the VS Code extension
 - `apps/backend`: the separate TypeScript backend scaffold
 
-Right now, the extension is the working part. It can run a Python file, capture a runtime error, show a VS Code diagnostic, and open an AI Tutor panel inside VS Code.
+Right now, the extension is the working part. It can run a Python file, capture a runtime error, show a VS Code diagnostic, and open an AI Tutor view inside VS Code.
 
 ## Project Structure
 
@@ -166,7 +166,7 @@ When you run `AI Tutor: Run Current Python File`, the extension should do all of
 2. Capture runtime output
 3. Capture runtime errors
 4. Create a VS Code diagnostic on the failing line
-5. Open the AI Tutor panel inside VS Code
+5. Open the AI Tutor view inside VS Code
 6. Keep detailed logs available in the `AI Tutor` output channel if you need them
 
 ## Expected Result For `divide-by-zero.py`
@@ -184,7 +184,7 @@ Expected behavior:
   - stderr
   - structured JSON payload
 
-- the AI Tutor panel opens as a tab beside the editor and shows:
+- the AI Tutor view opens in the left sidebar and shows:
   - Primary Issue
   - Next Action
   - Guided Steps
@@ -206,9 +206,9 @@ Expected runtime error:
 ZeroDivisionError: division by zero
 ```
 
-## What The AI Tutor Panel Is
+## What The AI Tutor View Is
 
-The AI Tutor panel is a **webview inside VS Code**.
+The AI Tutor view is a **webview inside VS Code**.
 
 That means:
 
@@ -216,27 +216,17 @@ That means:
 - it is not a terminal UI
 - it is not the Output panel
 
-It appears as a normal editor tab inside VS Code with a title like:
+It appears in the left sidebar of VS Code under the AI Tutor activity-bar icon.
 
-```text
-AI Tutor
-```
+## If The View Says "No run data yet"
 
-or:
-
-```text
-AI Tutor: ZeroDivisionError
-```
-
-## If The Panel Says "No run data yet"
-
-That means the panel opened before a file run completed.
+That means the view opened before a file run completed.
 
 Fix:
 
 1. Keep a Python file open
 2. Run `AI Tutor: Run Current Python File`
-3. The panel should refresh with the captured error data
+3. The view should refresh with the captured error data
 
 ## If The Command Does Not Appear
 

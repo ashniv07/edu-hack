@@ -7,7 +7,7 @@ import type { ExecutionPayload } from '../core/types';
 import { openTutorPanel } from '../ui/tutorPanel';
 import { getActivePythonFile } from '../utils/activeFile';
 
-export async function runCurrentPythonFile(context: vscode.ExtensionContext): Promise<void> {
+export async function runCurrentPythonFile(): Promise<void> {
 	const outputChannel = getOutputChannel();
 	const diagnosticCollection = createDiagnosticCollection();
 	const activeFile = await getActivePythonFile();
@@ -49,17 +49,17 @@ export async function runCurrentPythonFile(context: vscode.ExtensionContext): Pr
 	}
 
 	if (runtimeResult.success) {
-		await openTutorPanel({ context, payload });
+		await openTutorPanel({ payload });
 		vscode.window.showInformationMessage('Python program ran successfully.');
 		return;
 	}
 
 	if (runtimeResult.timedOut) {
-		await openTutorPanel({ context, payload });
+		await openTutorPanel({ payload });
 		vscode.window.showWarningMessage('Python program timed out. AI Tutor captured the failure details.');
 		return;
 	}
 
-	await openTutorPanel({ context, payload });
-	vscode.window.showWarningMessage('Python program failed. Review the AI Tutor panel and the Problems panel.');
+	await openTutorPanel({ payload });
+	vscode.window.showWarningMessage('Python program failed. Review the AI Tutor view and the Problems panel.');
 }

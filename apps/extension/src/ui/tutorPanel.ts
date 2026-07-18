@@ -3,42 +3,78 @@ import type { ExecutionPayload } from '../core/types';
 import { buildTutorPanelState } from '../tutor/buildTutorPanelState';
 import type { TutorPanelState } from '../tutor/types';
 
-interface OpenTutorPanelOptions {
-	context?: vscode.ExtensionContext;
-	payload?: ExecutionPayload;
-}
+const TUTOR_CONTAINER_ID = 'ai-tutor';
+const TUTOR_VIEW_ID = 'aiTutorView';
 
-let panel: vscode.WebviewPanel | undefined;
-let extensionUri: vscode.Uri | undefined;
+let tutorSidebarProvider: TutorSidebarProvider | undefined;
 
-export async function openTutorPanel(options: OpenTutorPanelOptions): Promise<void> {
-	if (options.context) {
-		extensionUri = options.context.extensionUri;
-	}
-
-	if (!extensionUri) {
-		vscode.window.showErrorMessage('AI Tutor panel is not ready yet. Run the extension command again.');
+export function registerTutorPanel(context: vscode.ExtensionContext): void {
+	if (tutorSidebarProvider) {
 		return;
 	}
 
-	const state = buildTutorPanelState(options.payload);
+	tutorSidebarProvider = new TutorSidebarProvider(context.extensionUri);
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider(TUTOR_VIEW_ID, tutorSidebarProvider, {
+			webviewOptions: {
+				retainContextWhenHidden: true,
+			},
+		}),
+	);
+}
 
-	if (!panel) {
-		panel = vscode.window.createWebviewPanel('aiTutorPanel', 'AI Tutor', vscode.ViewColumn.Beside, {
-			enableScripts: true,
-			retainContextWhenHidden: true,
-		});
-
-		panel.onDidDispose(() => {
-			panel = undefined;
-		});
+export async function openTutorPanel(options: { payload?: ExecutionPayload } = {}): Promise<void> {
+	if (!tutorSidebarProvider) {
+		vscode.window.showErrorMessage('AI Tutor view is not ready yet. Reload the extension and try again.');
+		return;
 	}
 
-	panel.title = state.insight?.primaryIssue?.exceptionType
-		? `AI Tutor: ${state.insight.primaryIssue.exceptionType}`
-		: 'AI Tutor';
-	panel.webview.html = getWebviewHtml(panel.webview, extensionUri, state);
-	panel.reveal(vscode.ViewColumn.Beside, false);
+	await tutorSidebarProvider.show(options.payload);
+}
+
+class TutorSidebarProvider implements vscode.WebviewViewProvider {
+	private readonly extensionUri: vscode.Uri;
+	private state: TutorPanelState = {};
+	private view: vscode.WebviewView | undefined;
+
+	constructor(extensionUri: vscode.Uri) {
+		this.extensionUri = extensionUri;
+	}
+
+	async show(payload?: ExecutionPayload): Promise<void> {
+		this.state = buildTutorPanelState(payload);
+		await vscode.commands.executeCommand(`workbench.view.extension.${TUTOR_CONTAINER_ID}`);
+
+		try {
+			await vscode.commands.executeCommand(`${TUTOR_VIEW_ID}.focus`);
+		} catch {
+			// Focusing the view is best-effort; the sidebar container reveal matters most.
+		}
+
+		this.render();
+	}
+
+	resolveWebviewView(view: vscode.WebviewView): void {
+		this.view = view;
+		view.title = 'AI Tutor';
+		view.webview.options = {
+			enableScripts: true,
+			localResourceRoots: [vscode.Uri.joinPath(this.extensionUri, 'apps', 'extension', 'dist')],
+		};
+
+		this.render();
+	}
+
+	private render(): void {
+		if (!this.view) {
+			return;
+		}
+
+		this.view.title = this.state.insight?.primaryIssue?.exceptionType
+			? `AI Tutor: ${this.state.insight.primaryIssue.exceptionType}`
+			: 'AI Tutor';
+		this.view.webview.html = getWebviewHtml(this.view.webview, this.extensionUri, this.state);
+	}
 }
 
 function getWebviewHtml(webview: vscode.Webview, currentExtensionUri: vscode.Uri, state: TutorPanelState): string {

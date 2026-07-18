@@ -1,7 +1,7 @@
 {
   "name": "hackyay-ai-tutor",
   "displayName": "ai-tutor",
-  "description": "A VS Code extension that runs Python files, captures runtime errors, and opens an AI Tutor panel inside the editor.",
+  "description": "A VS Code extension that runs Python files, captures runtime errors, and opens an AI Tutor view inside the editor.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.125.0"
@@ -11,6 +11,25 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ai-tutor",
+          "title": "AI Tutor",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "ai-tutor": [
+        {
+          "id": "aiTutorView",
+          "name": "AI Tutor",
+          "type": "webview",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "hackyay-ai-tutor.runCurrentPythonFile",
@@ -18,7 +37,7 @@
       },
       {
         "command": "hackyay-ai-tutor.openTutorPanel",
-        "title": "AI Tutor: Open Tutor Panel"
+        "title": "AI Tutor: Show AI Tutor"
       }
     ],
     "menus": {
