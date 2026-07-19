@@ -16,7 +16,7 @@ function buildInsight(payload: ExecutionPayload): TutorInsight {
 	if (payload.success) {
 		return {
 			title: 'Run completed successfully',
-			summary: 'Your program finished without a Python runtime error. Use this run as a baseline before you test trickier inputs or edge cases.',
+			summary: 'Your program finished without a Java runtime error. Use this run as a baseline before you test trickier inputs or edge cases.',
 			status: 'success',
 			primaryIssue: payload.runtime.rootCause,
 			guidedSteps: [
@@ -33,7 +33,7 @@ function buildInsight(payload: ExecutionPayload): TutorInsight {
 	}
 
 	const issue = payload.runtime.rootCause;
-	const issueLabel = issue ? `${issue.exceptionType}: ${issue.message}` : 'a Python runtime failure';
+	const issueLabel = issue ? `${issue.exceptionType}: ${issue.message}` : 'a Java runtime failure';
 
 	return {
 		title: 'Runtime issue detected',
@@ -57,7 +57,7 @@ function buildGuidedSteps(payload: ExecutionPayload): string[] {
 		'Move one frame upward to identify who called that function and what input was passed in.',
 	];
 
-	if (issue?.exceptionType === 'ZeroDivisionError') {
+	if (issue?.exceptionType === 'java.lang.ArithmeticException') {
 		steps.push('Check why the divisor became zero and whether you should validate or guard before dividing.');
 	}
 

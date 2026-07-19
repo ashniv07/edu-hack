@@ -2,15 +2,15 @@ import * as vscode from 'vscode';
 import { clearDiagnostics, createDiagnosticCollection, showDiagnostics } from '../core/diagnostics';
 import { getOutputChannel } from '../core/outputChannel';
 import { sendPayload } from '../core/payloadBus';
-import { runPythonFile } from '../core/pythonRunner';
+import { runJavaFile } from '../core/pythonRunner';
 import type { ExecutionPayload } from '../core/types';
 import { openTutorPanel } from '../ui/tutorPanel';
-import { getActivePythonFile } from '../utils/activeFile';
+import { getActiveJavaFile } from '../utils/activeFile';
 
-export async function runCurrentPythonFile(): Promise<void> {
+export async function runCurrentJavaFile(): Promise<void> {
 	const outputChannel = getOutputChannel();
 	const diagnosticCollection = createDiagnosticCollection();
-	const activeFile = await getActivePythonFile();
+	const activeFile = await getActiveJavaFile();
 
 	if (!activeFile) {
 		return;
@@ -22,7 +22,7 @@ export async function runCurrentPythonFile(): Promise<void> {
 	outputChannel.appendLine('');
 	outputChannel.appendLine(`Running AI Tutor pipeline for ${fileInfo.fileName}`);
 
-	const runtimeResult = await runPythonFile({
+	const runtimeResult = await runJavaFile({
 		fileInfo,
 		outputChannel,
 	});
@@ -43,23 +43,23 @@ export async function runCurrentPythonFile(): Promise<void> {
 
 	if (runtimeResult.toolMissing) {
 		vscode.window.showErrorMessage(
-			'AI Tutor could not find Python. Install Python or set hackyayAiTutor.pythonPath in Settings.',
+			'AI Tutor could not find Java. Install a JDK or set hackyayAiTutor.javaPath in Settings.',
 		);
 		return;
 	}
 
 	if (runtimeResult.success) {
 		await openTutorPanel({ payload });
-		vscode.window.showInformationMessage('Python program ran successfully.');
+		vscode.window.showInformationMessage('Java program ran successfully.');
 		return;
 	}
 
 	if (runtimeResult.timedOut) {
 		await openTutorPanel({ payload });
-		vscode.window.showWarningMessage('Python program timed out. AI Tutor captured the failure details.');
+		vscode.window.showWarningMessage('Java program timed out. AI Tutor captured the failure details.');
 		return;
 	}
 
 	await openTutorPanel({ payload });
-	vscode.window.showWarningMessage('Python program failed. Review the AI Tutor view and the Problems panel.');
+	vscode.window.showWarningMessage('Java program failed. Review the AI Tutor view and the Problems panel.');
 }

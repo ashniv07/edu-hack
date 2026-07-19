@@ -4,7 +4,7 @@ export interface FileInfo {
 	filePath: string;
 	fileName: string;
 	directoryPath: string;
-	language: 'python';
+	language: 'java';
 	workspacePath?: string;
 }
 

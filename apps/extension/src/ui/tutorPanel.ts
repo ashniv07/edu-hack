@@ -59,7 +59,7 @@ class TutorSidebarProvider implements vscode.WebviewViewProvider {
 		view.title = 'AI Tutor';
 		view.webview.options = {
 			enableScripts: true,
-			localResourceRoots: [vscode.Uri.joinPath(this.extensionUri, 'apps', 'extension', 'dist')],
+			localResourceRoots: [vscode.Uri.joinPath(this.extensionUri, 'dist')],
 		};
 
 		this.render();
@@ -77,7 +77,7 @@ class TutorSidebarProvider implements vscode.WebviewViewProvider {
 
 function getWebviewHtml(webview: vscode.Webview, currentExtensionUri: vscode.Uri, state: TutorPanelState): string {
 	const scriptUri = webview.asWebviewUri(
-		vscode.Uri.joinPath(currentExtensionUri, 'apps', 'extension', 'dist', 'webview.js'),
+		vscode.Uri.joinPath(currentExtensionUri, 'dist', 'webview.js'),
 	);
 	const nonce = getNonce();
 	const serializedState = JSON.stringify(state).replace(/</g, '\\u003c');

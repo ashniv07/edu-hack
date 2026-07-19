@@ -33,7 +33,7 @@
     "commands": [
       {
         "command": "hackyay-ai-tutor.runCurrentPythonFile",
-        "title": "AI Tutor: Run Current Python File"
+        "title": "AI Tutor: Run Current Java File"
       },
       {
         "command": "hackyay-ai-tutor.openTutorPanel",
@@ -44,12 +44,12 @@
       "editor/title": [
         {
           "command": "hackyay-ai-tutor.runCurrentPythonFile",
-          "when": "resourceExtname == .py",
+          "when": "resourceExtname == .java",
           "group": "navigation"
         },
         {
           "command": "hackyay-ai-tutor.openTutorPanel",
-          "when": "resourceExtname == .py",
+          "when": "resourceExtname == .java",
           "group": "navigation@1"
         }
       ]
@@ -57,10 +57,10 @@
     "configuration": {
       "title": "AI Tutor",
       "properties": {
-        "hackyayAiTutor.pythonPath": {
-          "type": "string",
-          "default": "python",
-          "description": "Python executable used to run the current Python file."
+        "hackyayAiTutor.javaPath": {
+		  "type": "string",
+		  "default": "java",
+		  "description": "Java executable used to run the current Java file. Java 11 or later is required for source-file mode."
         },
         "hackyayAiTutor.runtimeTimeoutMs": {
           "type": "number",

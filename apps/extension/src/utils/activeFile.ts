@@ -1,27 +1,27 @@
 import * as vscode from 'vscode';
 import type { FileInfo } from '../core/types';
 
-interface ActivePythonFile {
+interface ActiveJavaFile {
 	document: vscode.TextDocument;
 	fileInfo: FileInfo;
 	source: string;
 }
 
-export async function getActivePythonFile(): Promise<ActivePythonFile | undefined> {
-	const editor = getPreferredPythonEditor();
+export async function getActiveJavaFile(): Promise<ActiveJavaFile | undefined> {
+	const editor = getPreferredJavaEditor();
 	if (!editor) {
-		vscode.window.showErrorMessage('Open a Python file before running AI Tutor.');
+		vscode.window.showErrorMessage('Open a Java file before running AI Tutor.');
 		return undefined;
 	}
 
 	const { document } = editor;
 	if (document.isUntitled) {
-		vscode.window.showErrorMessage('Save the Python file before running AI Tutor.');
+		vscode.window.showErrorMessage('Save the Java file before running AI Tutor.');
 		return undefined;
 	}
 
-	if (document.languageId !== 'python' && !document.fileName.endsWith('.py')) {
-		vscode.window.showErrorMessage('AI Tutor currently supports .py files only.');
+	if (document.languageId !== 'java' && !document.fileName.endsWith('.java')) {
+		vscode.window.showErrorMessage('AI Tutor currently supports .java files only.');
 		return undefined;
 	}
 
@@ -38,7 +38,7 @@ export async function getActivePythonFile(): Promise<ActivePythonFile | undefine
 		filePath: document.uri.fsPath,
 		fileName: document.fileName.split(/[\\/]/).pop() ?? document.fileName,
 		directoryPath: document.uri.fsPath.replace(/[\\/][^\\/]+$/, ''),
-		language: 'python',
+		language: 'java',
 		workspacePath: workspaceFolder?.uri.fsPath,
 	};
 
@@ -49,7 +49,7 @@ export async function getActivePythonFile(): Promise<ActivePythonFile | undefine
 	};
 }
 
-function getPreferredPythonEditor(): vscode.TextEditor | undefined {
+function getPreferredJavaEditor(): vscode.TextEditor | undefined {
 	const activeEditor = vscode.window.activeTextEditor;
 	if (activeEditor) {
 		return activeEditor;
@@ -57,6 +57,6 @@ function getPreferredPythonEditor(): vscode.TextEditor | undefined {
 
 	return vscode.window.visibleTextEditors.find((editor) => {
 		const { document } = editor;
-		return document.languageId === 'python' || document.fileName.endsWith('.py');
+		return document.languageId === 'java' || document.fileName.endsWith('.java');
 	});
 }
