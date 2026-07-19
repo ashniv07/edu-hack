@@ -15,7 +15,7 @@ export function App({ initialState }: AppProps) {
 					<p style={styles.eyebrow}>AI Tutor</p>
 					<h1 style={styles.title}>No run data yet</h1>
 					<p style={styles.summary}>
-						Run a Python file with the AI Tutor command and this view will show the captured
+					Run a Java file with the AI Tutor command and this view will show the captured
 						error, traceback, and guided debugging notes.
 					</p>
 				</div>

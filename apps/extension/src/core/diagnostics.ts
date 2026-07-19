@@ -139,6 +139,58 @@ export function parsePythonTraceback(output: string): ParsedPythonTraceback {
 	};
 }
 
+export function parseJavaStackTrace(output: string): ParsedPythonTraceback {
+	const lines = output.split(/\r?\n/);
+	const exceptionLine = lines.find((line) => /(?:Exception|Error)(?::|$)/.test(line.trim()));
+	const framePattern = /^\s*at\s+(.*?)\(([^:()]+):(\d+)\)$/;
+	const stackFrames: TracebackFrame[] = [];
+
+	for (const line of lines) {
+		const match = line.match(framePattern);
+		if (!match) {
+			continue;
+		}
+
+		const [, functionName, filePath, lineValue] = match;
+		stackFrames.push({
+			filePath,
+			line: Number(lineValue),
+			column: 1,
+			functionName,
+			raw: line.trim(),
+		});
+	}
+
+	if (!exceptionLine || stackFrames.length === 0) {
+		return { stackFrames };
+	}
+
+	const exceptionText = exceptionLine.trim().replace(/^Exception in thread \"[^\"]+\"\s+/, '');
+	const separator = exceptionText.indexOf(':');
+	const exceptionType = separator >= 0 ? exceptionText.slice(0, separator).trim() : exceptionText;
+	const message = separator >= 0 ? exceptionText.slice(separator + 1).trim() : 'Java runtime error';
+	const deepestFrame = stackFrames[0];
+	const rootCause: RootCause = {
+		exceptionType,
+		message,
+		line: deepestFrame.line,
+		column: deepestFrame.column,
+		raw: [exceptionLine.trim(), ...stackFrames.map((frame) => frame.raw)].join('\n'),
+	};
+
+	return {
+		stackFrames,
+		rootCause,
+		primaryDiagnostic: {
+			line: deepestFrame.line,
+			column: deepestFrame.column,
+			severity: 'error',
+			message: `${exceptionType}: ${message}`,
+			raw: rootCause.raw,
+		},
+	};
+}
+
 function toVscodeSeverity(severity: DiagnosticSeverityLabel): vscode.DiagnosticSeverity {
 	switch (severity) {
 		case 'warning':

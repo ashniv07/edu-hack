@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { runCurrentPythonFile } from './commands/runCurrentPythonFile';
+import { runCurrentJavaFile } from './commands/runCurrentPythonFile';
 import { getOutputChannel } from './core/outputChannel';
 import { getLatestPayload } from './core/payloadBus';
 import { openTutorPanel, registerTutorPanel } from './ui/tutorPanel';
@@ -11,7 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const runCurrentPythonFileCommand = vscode.commands.registerCommand(
 		'hackyay-ai-tutor.runCurrentPythonFile',
-		() => runCurrentPythonFile(),
+		() => runCurrentJavaFile(),
 	);
 	const openTutorPanelCommand = vscode.commands.registerCommand(
 		'hackyay-ai-tutor.openTutorPanel',
