@@ -68,6 +68,11 @@
           "default": 5000,
           "minimum": 1000,
           "description": "Maximum time allowed for running the current Python file in milliseconds."
+        },
+        "hackyayAiTutor.backendUrl": {
+          "type": "string",
+          "default": "http://localhost:3001",
+          "description": "Backend URL used by AI Tutor to analyze runtime failures."
         }
       }
     }
@@ -81,6 +86,7 @@
     "watch": "npm run extension:watch",
     "extension:compile": "npm --workspace apps/extension run compile",
     "extension:watch": "npm --workspace apps/extension run watch",
-    "backend:check-types": "npm --workspace apps/backend run check-types"
+    "backend:check-types": "npm --workspace apps/backend run check-types",
+    "backend:dev": "npm --workspace apps/backend run dev"
   }
 }

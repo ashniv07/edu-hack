@@ -7,7 +7,8 @@
   "scripts": {
     "check-types": "tsc --noEmit",
     "build": "tsc -p tsconfig.json",
-    "dev": "node --watch --experimental-strip-types src/index.ts",
+    "dev": "npm run build && node dist/server.js",
+    "start": "node dist/server.js",
     "demo:agents": "npm run build && node dist/demoAgentRun.js",
 		"test": "vitest run src"
   },

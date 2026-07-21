@@ -1,9 +1,32 @@
 import type { ExecutionPayload } from '../core/types';
-import type { TutorInsight, TutorPanelState } from './types';
+import type { BackendTutorResponse, TutorInsight, TutorPanelState } from './types';
 
-export function buildTutorPanelState(payload?: ExecutionPayload): TutorPanelState {
+export function buildTutorPanelState(
+	payload?: ExecutionPayload,
+	backendResponse?: BackendTutorResponse,
+): TutorPanelState {
 	if (!payload) {
 		return {};
+	}
+
+	if (backendResponse) {
+		return {
+			payload,
+			insight: {
+				title: backendResponse.title,
+				summary: backendResponse.summary,
+				status: backendResponse.status,
+				primaryIssue: backendResponse.primaryIssue,
+				guidedSteps: backendResponse.guidedSteps,
+				observations: backendResponse.observations,
+				stackFrames: backendResponse.stackFrames,
+				stdout: backendResponse.stdout,
+				stderr: backendResponse.stderr,
+				nextAction: backendResponse.nextAction,
+			},
+			codeAnalysis: backendResponse.codeAnalysis,
+			agentInsights: backendResponse.agentInsights,
+		};
 	}
 
 	return {

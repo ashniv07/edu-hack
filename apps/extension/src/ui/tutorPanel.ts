@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import type { ExecutionPayload } from '../core/types';
 import { buildTutorPanelState } from '../tutor/buildTutorPanelState';
-import type { TutorPanelState } from '../tutor/types';
+import type { BackendTutorResponse, TutorPanelState } from '../tutor/types';
 
 const TUTOR_CONTAINER_ID = 'ai-tutor';
 const TUTOR_VIEW_ID = 'aiTutorView';
@@ -23,13 +23,15 @@ export function registerTutorPanel(context: vscode.ExtensionContext): void {
 	);
 }
 
-export async function openTutorPanel(options: { payload?: ExecutionPayload } = {}): Promise<void> {
+export async function openTutorPanel(
+	options: { payload?: ExecutionPayload; backendResponse?: BackendTutorResponse } = {},
+): Promise<void> {
 	if (!tutorSidebarProvider) {
 		vscode.window.showErrorMessage('AI Tutor view is not ready yet. Reload the extension and try again.');
 		return;
 	}
 
-	await tutorSidebarProvider.show(options.payload);
+	await tutorSidebarProvider.show(options.payload, options.backendResponse);
 }
 
 class TutorSidebarProvider implements vscode.WebviewViewProvider {
@@ -41,8 +43,8 @@ class TutorSidebarProvider implements vscode.WebviewViewProvider {
 		this.extensionUri = extensionUri;
 	}
 
-	async show(payload?: ExecutionPayload): Promise<void> {
-		this.state = buildTutorPanelState(payload);
+	async show(payload?: ExecutionPayload, backendResponse?: BackendTutorResponse): Promise<void> {
+		this.state = buildTutorPanelState(payload, backendResponse);
 		await vscode.commands.executeCommand(`workbench.view.extension.${TUTOR_CONTAINER_ID}`);
 
 		try {
