@@ -1,7 +1,7 @@
 {
   "name": "hackyay-ai-tutor",
   "displayName": "ai-tutor",
-  "description": "A VS Code extension that runs Python files, captures runtime errors, and opens an AI Tutor view inside the editor.",
+  "description": "A VS Code extension that runs Python/Java files, captures runtime errors, and opens an AI Tutor view inside the editor.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.125.0"
@@ -33,7 +33,7 @@
     "commands": [
       {
         "command": "hackyay-ai-tutor.runCurrentPythonFile",
-        "title": "AI Tutor: Run Current Java File"
+        "title": "AI Tutor: Run Current File"
       },
       {
         "command": "hackyay-ai-tutor.openTutorPanel",
@@ -44,12 +44,12 @@
       "editor/title": [
         {
           "command": "hackyay-ai-tutor.runCurrentPythonFile",
-          "when": "resourceExtname == .java",
+          "when": "resourceExtname == .py || resourceExtname == .java",
           "group": "navigation"
         },
         {
           "command": "hackyay-ai-tutor.openTutorPanel",
-          "when": "resourceExtname == .java",
+          "when": "resourceExtname == .py || resourceExtname == .java",
           "group": "navigation@1"
         }
       ]
@@ -57,16 +57,21 @@
     "configuration": {
       "title": "AI Tutor",
       "properties": {
+        "hackyayAiTutor.pythonPath": {
+          "type": "string",
+          "default": "python3",
+          "description": "Python executable used to run Python files. Python 3.8 or later is recommended."
+        },
         "hackyayAiTutor.javaPath": {
           "type": "string",
           "default": "java",
-          "description": "Java executable used to run the current Java file. Java 11 or later is required for source-file mode."
+          "description": "Java executable used to run Java files. Java 11 or later is required for source-file mode."
         },
         "hackyayAiTutor.runtimeTimeoutMs": {
           "type": "number",
           "default": 5000,
           "minimum": 1000,
-          "description": "Maximum time allowed for running the current Python file in milliseconds."
+          "description": "Maximum time allowed for running the current file in milliseconds."
         },
         "hackyayAiTutor.backendUrl": {
           "type": "string",
@@ -95,7 +100,7 @@
     "@types/node": "24.x",
     "@types/vscode": "^1.125.0",
     "@vscode/test-cli": "^0.0.15",
-    "@vscode/test-electron": "^3.0.0",
+    "@vscode/test-electron": "^2.5.2",
     "esbuild": "^0.28.1",
     "eslint": "^10.5.0",
     "npm-run-all": "^4.1.5",

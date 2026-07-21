@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { MemoryVisualizationProps, ViewMode, PuzzleDefinition } from '../types';
+import type { MemoryVisualizationProps, ViewMode, PuzzleDefinition, DynamicVisualization as DynamicVizType } from '../types';
 import { VisualizationProvider, useVisualization } from '../context/VisualizationContext';
 import { PuzzleProvider } from '../context/PuzzleContext';
 import { useMemoryLayout } from '../hooks/useMemoryLayout';
@@ -9,6 +9,7 @@ import { MemoryLayoutView } from './layout/MemoryLayoutView';
 import { VisualizationCanvas } from './canvas/VisualizationCanvas';
 import { TimelineScrubber } from './timeline/TimelineScrubber';
 import { PuzzleContainer } from './puzzle/PuzzleContainer';
+import { DynamicVisualization } from './dynamic/DynamicVisualization';
 import { generatePuzzle } from '../utils/puzzleGenerator';
 import { COLORS } from '../constants';
 
@@ -43,7 +44,15 @@ function ViewModeTab({
 }
 
 // Inner component that uses context
-function MemoryVisualizationInner({ errorLine, concept }: { errorLine?: number; concept?: string }) {
+function MemoryVisualizationInner({
+  errorLine,
+  concept,
+  visualization,
+}: {
+  errorLine?: number;
+  concept?: string;
+  visualization?: DynamicVizType;
+}) {
   const { state, goToStep, setSpeed, reset } = useVisualization();
   const { memoryModel, memoryLayout, pointers, timeline, viewMode } = state;
 
@@ -80,12 +89,26 @@ function MemoryVisualizationInner({ errorLine, concept }: { errorLine?: number; 
     return generatePuzzle(memoryModel, concept, 'beginner');
   }, [memoryModel, concept]);
 
-  const [activeView, setActiveView] = useState<ViewMode>(viewMode);
+  // Determine if we should show dynamic visualization
+  const hasDynamicViz = visualization && visualization.type !== 'memory_layout';
+
+  const [activeView, setActiveView] = useState<ViewMode | 'dynamic'>(
+    hasDynamicViz ? 'dynamic' : viewMode
+  );
 
   return (
     <div style={styles.container}>
       {/* View mode tabs */}
       <div style={styles.tabBar}>
+        {hasDynamicViz && (
+          <ViewModeTab
+            mode="visualization"
+            label="Error Viz"
+            icon="🎯"
+            isActive={activeView === 'dynamic'}
+            onClick={() => setActiveView('dynamic')}
+          />
+        )}
         <ViewModeTab
           mode="visualization"
           label="Memory Layout"
@@ -119,6 +142,13 @@ function MemoryVisualizationInner({ errorLine, concept }: { errorLine?: number; 
           transition={{ duration: 0.2 }}
           style={styles.content}
         >
+          {activeView === 'dynamic' && visualization && (
+            <DynamicVisualization
+              visualization={visualization}
+              concept={concept || 'unknown'}
+            />
+          )}
+
           {activeView === 'visualization' && (
             <MemoryLayoutView
               layout={memoryLayout}
@@ -183,9 +213,22 @@ export function MemoryVisualization({
   errorLine,
   concept,
   initialViewMode = 'visualization',
+  visualization,
 }: MemoryVisualizationProps) {
   // Handle empty memory model
   if (!memoryModel || memoryModel.variables.length === 0) {
+    // Still show dynamic visualization if available
+    if (visualization && visualization.type !== 'memory_layout') {
+      return (
+        <div style={styles.dynamicOnlyContainer}>
+          <DynamicVisualization
+            visualization={visualization}
+            concept={concept || 'unknown'}
+          />
+        </div>
+      );
+    }
+
     return (
       <div style={styles.emptyState}>
         <span style={styles.emptyIcon}>📊</span>
@@ -199,7 +242,11 @@ export function MemoryVisualization({
 
   return (
     <VisualizationProvider memoryModel={memoryModel} errorLine={errorLine} concept={concept}>
-      <MemoryVisualizationInner errorLine={errorLine} concept={concept} />
+      <MemoryVisualizationInner
+        errorLine={errorLine}
+        concept={concept}
+        visualization={visualization}
+      />
     </VisualizationProvider>
   );
 }
@@ -211,12 +258,16 @@ const styles: Record<string, React.CSSProperties> = {
     flexDirection: 'column',
     gap: '16px',
   },
+  dynamicOnlyContainer: {
+    padding: '16px 0',
+  },
   tabBar: {
     display: 'flex',
     gap: '8px',
     padding: '4px',
     background: COLORS.ui.backgroundSecondary,
     borderRadius: '10px',
+    flexWrap: 'wrap',
   },
   tab: {
     display: 'flex',

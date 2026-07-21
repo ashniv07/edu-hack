@@ -1,0 +1,336 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b"/>
+      <stop offset="100%" style="stop-color:#0f172a"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="#0f172a"/>
+
+  <!-- Title -->
+  <text x="600" y="50" font-family="system-ui, sans-serif" font-size="28" font-weight="bold" fill="#e2e8f0" text-anchor="middle">CodeMorph AI - System Architecture</text>
+
+  <!-- VS Code Extension Box -->
+  <g transform="translate(50, 80)">
+    <rect width="520" height="380" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="2" filter="url(#shadow)"/>
+    <rect width="520" height="40" rx="12" fill="url(#headerGrad)"/>
+    <text x="20" y="27" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="white">VS Code Extension</text>
+
+    <!-- Extension Host -->
+    <g transform="translate(20, 60)">
+      <rect width="230" height="140" rx="8" fill="#1e293b" stroke="#475569"/>
+      <text x="10" y="25" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#94a3b8">Extension Host</text>
+
+      <rect x="10" y="40" width="100" height="30" rx="4" fill="#6366f1" opacity="0.2" stroke="#6366f1"/>
+      <text x="60" y="60" font-family="system-ui, sans-serif" font-size="10" fill="#a5b4fc" text-anchor="middle">Commands</text>
+
+      <rect x="120" y="40" width="100" height="30" rx="4" fill="#6366f1" opacity="0.2" stroke="#6366f1"/>
+      <text x="170" y="60" font-family="system-ui, sans-serif" font-size="10" fill="#a5b4fc" text-anchor="middle">File Runner</text>
+
+      <rect x="10" y="80" width="100" height="30" rx="4" fill="#6366f1" opacity="0.2" stroke="#6366f1"/>
+      <text x="60" y="100" font-family="system-ui, sans-serif" font-size="10" fill="#a5b4fc" text-anchor="middle">Diagnostics</text>
+
+      <rect x="120" y="80" width="100" height="30" rx="4" fill="#6366f1" opacity="0.2" stroke="#6366f1"/>
+      <text x="170" y="100" font-family="system-ui, sans-serif" font-size="10" fill="#a5b4fc" text-anchor="middle">CodeLens</text>
+    </g>
+
+    <!-- WebView Panel -->
+    <g transform="translate(270, 60)">
+      <rect width="230" height="300" rx="8" fill="#1e293b" stroke="#475569"/>
+      <text x="10" y="25" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#94a3b8">WebView (React 19)</text>
+
+      <!-- Tabs -->
+      <g transform="translate(10, 40)">
+        <rect width="50" height="24" rx="4" fill="#10b981" opacity="0.3"/>
+        <text x="25" y="16" font-family="system-ui, sans-serif" font-size="9" fill="#34d399" text-anchor="middle">Overview</text>
+
+        <rect x="55" width="50" height="24" rx="4" fill="#10b981" opacity="0.3"/>
+        <text x="80" y="16" font-family="system-ui, sans-serif" font-size="9" fill="#34d399" text-anchor="middle">Debug</text>
+
+        <rect x="110" width="50" height="24" rx="4" fill="#10b981" opacity="0.3"/>
+        <text x="135" y="16" font-family="system-ui, sans-serif" font-size="9" fill="#34d399" text-anchor="middle">Viz</text>
+
+        <rect x="165" width="45" height="24" rx="4" fill="#10b981" opacity="0.3"/>
+        <text x="187" y="16" font-family="system-ui, sans-serif" font-size="9" fill="#34d399" text-anchor="middle">Hints</text>
+      </g>
+
+      <!-- Components -->
+      <g transform="translate(10, 75)">
+        <text x="0" y="12" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Components:</text>
+
+        <rect y="20" width="95" height="22" rx="4" fill="#f59e0b" opacity="0.2"/>
+        <text x="48" y="35" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24" text-anchor="middle">CodePreview</text>
+
+        <rect x="100" y="20" width="95" height="22" rx="4" fill="#f59e0b" opacity="0.2"/>
+        <text x="148" y="35" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24" text-anchor="middle">StepDebugger</text>
+
+        <rect y="47" width="95" height="22" rx="4" fill="#f59e0b" opacity="0.2"/>
+        <text x="48" y="62" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24" text-anchor="middle">Hints</text>
+
+        <rect x="100" y="47" width="95" height="22" rx="4" fill="#f59e0b" opacity="0.2"/>
+        <text x="148" y="62" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24" text-anchor="middle">RetryChallenge</text>
+
+        <rect y="74" width="95" height="22" rx="4" fill="#f59e0b" opacity="0.2"/>
+        <text x="48" y="89" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24" text-anchor="middle">AdaptivePuzzle</text>
+
+        <rect x="100" y="74" width="95" height="22" rx="4" fill="#f59e0b" opacity="0.2"/>
+        <text x="148" y="89" font-family="system-ui, sans-serif" font-size="9" fill="#fbbf24" text-anchor="middle">Dashboard</text>
+      </g>
+
+      <!-- Visualizations -->
+      <g transform="translate(10, 180)">
+        <text x="0" y="12" font-family="system-ui, sans-serif" font-size="10" fill="#64748b">Dynamic Visualizations:</text>
+
+        <rect y="20" width="60" height="20" rx="3" fill="#ef4444" opacity="0.2"/>
+        <text x="30" y="33" font-family="system-ui, sans-serif" font-size="8" fill="#f87171" text-anchor="middle">Array</text>
+
+        <rect x="65" y="20" width="60" height="20" rx="3" fill="#ef4444" opacity="0.2"/>
+        <text x="95" y="33" font-family="system-ui, sans-serif" font-size="8" fill="#f87171" text-anchor="middle">Dict</text>
+
+        <rect x="130" y="20" width="60" height="20" rx="3" fill="#ef4444" opacity="0.2"/>
+        <text x="160" y="33" font-family="system-ui, sans-serif" font-size="8" fill="#f87171" text-anchor="middle">CallStack</text>
+
+        <rect y="45" width="60" height="20" rx="3" fill="#ef4444" opacity="0.2"/>
+        <text x="30" y="58" font-family="system-ui, sans-serif" font-size="8" fill="#f87171" text-anchor="middle">TypeFlow</text>
+
+        <rect x="65" y="45" width="60" height="20" rx="3" fill="#ef4444" opacity="0.2"/>
+        <text x="95" y="58" font-family="system-ui, sans-serif" font-size="8" fill="#f87171" text-anchor="middle">Memory</text>
+
+        <rect x="130" y="45" width="60" height="20" rx="3" fill="#ef4444" opacity="0.2"/>
+        <text x="160" y="58" font-family="system-ui, sans-serif" font-size="8" fill="#f87171" text-anchor="middle">Object</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Backend Server Box -->
+  <g transform="translate(630, 80)">
+    <rect width="520" height="380" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="2" filter="url(#shadow)"/>
+    <rect width="520" height="40" rx="12" fill="url(#headerGrad)"/>
+    <text x="20" y="27" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="white">Backend Server (Node.js)</text>
+
+    <!-- API Layer -->
+    <g transform="translate(20, 60)">
+      <rect width="480" height="50" rx="8" fill="#1e293b" stroke="#475569"/>
+      <text x="240" y="20" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#94a3b8" text-anchor="middle">Express API</text>
+      <text x="240" y="38" font-family="system-ui, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">POST /analyze | GET /health</text>
+    </g>
+
+    <!-- LangGraph -->
+    <g transform="translate(20, 120)">
+      <rect width="230" height="130" rx="8" fill="#1e293b" stroke="#475569"/>
+      <text x="115" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle">LangGraph Orchestrator</text>
+
+      <g transform="translate(15, 35)">
+        <rect width="90" height="25" rx="4" fill="#8b5cf6" opacity="0.3"/>
+        <text x="45" y="16" font-family="system-ui, sans-serif" font-size="9" fill="#a78bfa" text-anchor="middle">ParseError</text>
+
+        <rect x="100" width="90" height="25" rx="4" fill="#8b5cf6" opacity="0.3"/>
+        <text x="145" y="16" font-family="system-ui, sans-serif" font-size="9" fill="#a78bfa" text-anchor="middle">CodeAnalysis</text>
+
+        <rect y="35" width="90" height="25" rx="4" fill="#8b5cf6" opacity="0.3"/>
+        <text x="45" y="51" font-family="system-ui, sans-serif" font-size="9" fill="#a78bfa" text-anchor="middle">ConceptMap</text>
+
+        <rect x="100" y="35" width="90" height="25" rx="4" fill="#8b5cf6" opacity="0.3"/>
+        <text x="145" y="51" font-family="system-ui, sans-serif" font-size="9" fill="#a78bfa" text-anchor="middle">HintGen</text>
+      </g>
+    </g>
+
+    <!-- Analyzers -->
+    <g transform="translate(270, 120)">
+      <rect width="230" height="130" rx="8" fill="#1e293b" stroke="#475569"/>
+      <text x="115" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle">Analysis Engines</text>
+
+      <g transform="translate(15, 35)">
+        <rect width="60" height="30" rx="4" fill="#22c55e" opacity="0.3"/>
+        <text x="30" y="20" font-family="system-ui, sans-serif" font-size="9" fill="#4ade80" text-anchor="middle">Python</text>
+
+        <rect x="70" width="60" height="30" rx="4" fill="#22c55e" opacity="0.3"/>
+        <text x="100" y="20" font-family="system-ui, sans-serif" font-size="9" fill="#4ade80" text-anchor="middle">Java</text>
+
+        <rect x="140" width="60" height="30" rx="4" fill="#22c55e" opacity="0.3"/>
+        <text x="170" y="20" font-family="system-ui, sans-serif" font-size="9" fill="#4ade80" text-anchor="middle">C/C++</text>
+
+        <rect y="40" width="195" height="30" rx="4" fill="#0ea5e9" opacity="0.2"/>
+        <text x="98" y="60" font-family="system-ui, sans-serif" font-size="9" fill="#38bdf8" text-anchor="middle">Tree-sitter AST Parsing</text>
+      </g>
+    </g>
+
+    <!-- AI Integration -->
+    <g transform="translate(20, 260)">
+      <rect width="480" height="80" rx="8" fill="#1e293b" stroke="#475569"/>
+      <text x="240" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#94a3b8" text-anchor="middle">AI Integration (OpenAI GPT-4)</text>
+
+      <g transform="translate(30, 35)">
+        <rect width="100" height="28" rx="4" fill="#ec4899" opacity="0.2"/>
+        <text x="50" y="18" font-family="system-ui, sans-serif" font-size="9" fill="#f472b6" text-anchor="middle">Concepts</text>
+
+        <rect x="110" width="100" height="28" rx="4" fill="#ec4899" opacity="0.2"/>
+        <text x="160" y="18" font-family="system-ui, sans-serif" font-size="9" fill="#f472b6" text-anchor="middle">Learning Goals</text>
+
+        <rect x="220" width="100" height="28" rx="4" fill="#ec4899" opacity="0.2"/>
+        <text x="270" y="18" font-family="system-ui, sans-serif" font-size="9" fill="#f472b6" text-anchor="middle">Hints</text>
+
+        <rect x="330" width="100" height="28" rx="4" fill="#ec4899" opacity="0.2"/>
+        <text x="380" y="18" font-family="system-ui, sans-serif" font-size="9" fill="#f472b6" text-anchor="middle">Explanations</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connection Arrow -->
+  <g>
+    <line x1="570" y1="270" x2="630" y2="270" stroke="#6366f1" stroke-width="3" marker-end="url(#arrowhead)"/>
+    <text x="600" y="255" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">HTTP</text>
+  </g>
+
+  <!-- Data Flow Section -->
+  <g transform="translate(50, 490)">
+    <rect width="1100" height="380" rx="12" fill="url(#cardGrad)" stroke="#334155" stroke-width="2" filter="url(#shadow)"/>
+    <rect width="1100" height="40" rx="12" fill="url(#headerGrad)"/>
+    <text x="20" y="27" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="white">Data Flow</text>
+
+    <!-- Flow Steps -->
+    <g transform="translate(30, 60)">
+      <!-- Step 1 -->
+      <rect width="150" height="80" rx="8" fill="#6366f1" opacity="0.2" stroke="#6366f1"/>
+      <text x="75" y="25" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#a5b4fc" text-anchor="middle">1. Run File</text>
+      <text x="75" y="45" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Python/Java</text>
+      <text x="75" y="60" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">execution</text>
+
+      <!-- Arrow -->
+      <line x1="160" y1="40" x2="200" y2="40" stroke="#475569" stroke-width="2"/>
+      <polygon points="200,35 210,40 200,45" fill="#475569"/>
+
+      <!-- Step 2 -->
+      <rect x="220" width="150" height="80" rx="8" fill="#f59e0b" opacity="0.2" stroke="#f59e0b"/>
+      <text x="295" y="25" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#fbbf24" text-anchor="middle">2. Capture Error</text>
+      <text x="295" y="45" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Parse traceback</text>
+      <text x="295" y="60" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Extract details</text>
+
+      <!-- Arrow -->
+      <line x1="380" y1="40" x2="420" y2="40" stroke="#475569" stroke-width="2"/>
+      <polygon points="420,35 430,40 420,45" fill="#475569"/>
+
+      <!-- Step 3 -->
+      <rect x="440" width="150" height="80" rx="8" fill="#8b5cf6" opacity="0.2" stroke="#8b5cf6"/>
+      <text x="515" y="25" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#a78bfa" text-anchor="middle">3. AI Analysis</text>
+      <text x="515" y="45" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">LangGraph agents</text>
+      <text x="515" y="60" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">process code</text>
+
+      <!-- Arrow -->
+      <line x1="600" y1="40" x2="640" y2="40" stroke="#475569" stroke-width="2"/>
+      <polygon points="640,35 650,40 640,45" fill="#475569"/>
+
+      <!-- Step 4 -->
+      <rect x="660" width="150" height="80" rx="8" fill="#22c55e" opacity="0.2" stroke="#22c55e"/>
+      <text x="735" y="25" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#4ade80" text-anchor="middle">4. Generate Viz</text>
+      <text x="735" y="45" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Dynamic visuals</text>
+      <text x="735" y="60" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">for error type</text>
+
+      <!-- Arrow -->
+      <line x1="820" y1="40" x2="860" y2="40" stroke="#475569" stroke-width="2"/>
+      <polygon points="860,35 870,40 860,45" fill="#475569"/>
+
+      <!-- Step 5 -->
+      <rect x="880" width="150" height="80" rx="8" fill="#ec4899" opacity="0.2" stroke="#ec4899"/>
+      <text x="955" y="25" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#f472b6" text-anchor="middle">5. Interactive UI</text>
+      <text x="955" y="45" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Learn, practice,</text>
+      <text x="955" y="60" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">retry challenges</text>
+    </g>
+
+    <!-- Visualization Types -->
+    <g transform="translate(30, 170)">
+      <text x="0" y="0" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#94a3b8">Error → Visualization Mapping</text>
+
+      <g transform="translate(0, 20)">
+        <rect width="200" height="35" rx="4" fill="#ef4444" opacity="0.15" stroke="#ef4444" stroke-opacity="0.3"/>
+        <text x="10" y="22" font-family="system-ui, sans-serif" font-size="10" fill="#f87171">IndexError → Array Access</text>
+      </g>
+
+      <g transform="translate(220, 20)">
+        <rect width="200" height="35" rx="4" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-opacity="0.3"/>
+        <text x="10" y="22" font-family="system-ui, sans-serif" font-size="10" fill="#fbbf24">KeyError → Dict Access</text>
+      </g>
+
+      <g transform="translate(440, 20)">
+        <rect width="200" height="35" rx="4" fill="#22c55e" opacity="0.15" stroke="#22c55e" stroke-opacity="0.3"/>
+        <text x="10" y="22" font-family="system-ui, sans-serif" font-size="10" fill="#4ade80">RecursionError → Call Stack</text>
+      </g>
+
+      <g transform="translate(660, 20)">
+        <rect width="200" height="35" rx="4" fill="#8b5cf6" opacity="0.15" stroke="#8b5cf6" stroke-opacity="0.3"/>
+        <text x="10" y="22" font-family="system-ui, sans-serif" font-size="10" fill="#a78bfa">TypeError → Type Flow</text>
+      </g>
+
+      <g transform="translate(0, 65)">
+        <rect width="200" height="35" rx="4" fill="#ec4899" opacity="0.15" stroke="#ec4899" stroke-opacity="0.3"/>
+        <text x="10" y="22" font-family="system-ui, sans-serif" font-size="10" fill="#f472b6">AttributeError → Object Structure</text>
+      </g>
+
+      <g transform="translate(220, 65)">
+        <rect width="200" height="35" rx="4" fill="#0ea5e9" opacity="0.15" stroke="#0ea5e9" stroke-opacity="0.3"/>
+        <text x="10" y="22" font-family="system-ui, sans-serif" font-size="10" fill="#38bdf8">ZeroDivision → Arithmetic</text>
+      </g>
+
+      <g transform="translate(440, 65)">
+        <rect width="200" height="35" rx="4" fill="#14b8a6" opacity="0.15" stroke="#14b8a6" stroke-opacity="0.3"/>
+        <text x="10" y="22" font-family="system-ui, sans-serif" font-size="10" fill="#2dd4bf">NameError → Scope Chain</text>
+      </g>
+
+      <g transform="translate(660, 65)">
+        <rect width="200" height="35" rx="4" fill="#6366f1" opacity="0.15" stroke="#6366f1" stroke-opacity="0.3"/>
+        <text x="10" y="22" font-family="system-ui, sans-serif" font-size="10" fill="#818cf8">NullPointer → Memory Layout</text>
+      </g>
+    </g>
+
+    <!-- Tech Stack -->
+    <g transform="translate(30, 300)">
+      <text x="0" y="0" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#94a3b8">Technology Stack</text>
+
+      <g transform="translate(0, 15)">
+        <rect width="150" height="28" rx="4" fill="#0ea5e9" opacity="0.2"/>
+        <text x="75" y="18" font-family="system-ui, sans-serif" font-size="10" fill="#38bdf8" text-anchor="middle">React 19</text>
+      </g>
+
+      <g transform="translate(160, 15)">
+        <rect width="150" height="28" rx="4" fill="#22c55e" opacity="0.2"/>
+        <text x="75" y="18" font-family="system-ui, sans-serif" font-size="10" fill="#4ade80" text-anchor="middle">Framer Motion</text>
+      </g>
+
+      <g transform="translate(320, 15)">
+        <rect width="150" height="28" rx="4" fill="#f59e0b" opacity="0.2"/>
+        <text x="75" y="18" font-family="system-ui, sans-serif" font-size="10" fill="#fbbf24" text-anchor="middle">LangGraph</text>
+      </g>
+
+      <g transform="translate(480, 15)">
+        <rect width="150" height="28" rx="4" fill="#8b5cf6" opacity="0.2"/>
+        <text x="75" y="18" font-family="system-ui, sans-serif" font-size="10" fill="#a78bfa" text-anchor="middle">Tree-sitter</text>
+      </g>
+
+      <g transform="translate(640, 15)">
+        <rect width="150" height="28" rx="4" fill="#ec4899" opacity="0.2"/>
+        <text x="75" y="18" font-family="system-ui, sans-serif" font-size="10" fill="#f472b6" text-anchor="middle">OpenAI GPT</text>
+      </g>
+
+      <g transform="translate(800, 15)">
+        <rect width="150" height="28" rx="4" fill="#ef4444" opacity="0.2"/>
+        <text x="75" y="18" font-family="system-ui, sans-serif" font-size="10" fill="#f87171" text-anchor="middle">@xyflow/react</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6366f1"/>
+    </marker>
+  </defs>
+</svg>

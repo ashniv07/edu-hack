@@ -66,7 +66,14 @@ export class JavaAnalyzer implements LanguageAnalyzer {
 			: compilerOutput.exceptionType === 'ConcurrentModificationException' ? 'concurrent_modification'
 			: compilerOutput.exceptionType === 'NullPointerException' && state === 'null' ? 'null_pointer_dereference'
 			: 'unknown_runtime_error';
-		return { concept, confidence: concept === 'unknown_runtime_error' ? 0.35 : 0.99, errorLine: compilerOutput.line, memoryModel: { variables, pointers, operations } };
+		const memoryModel = { variables, pointers, operations };
+		return {
+			concept,
+			confidence: concept === 'unknown_runtime_error' ? 0.35 : 0.99,
+			errorLine: compilerOutput.line,
+			memoryModel,
+			visualization: { type: 'memory_layout' as const, data: memoryModel },
+		};
 	}
 }
 
