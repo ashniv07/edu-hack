@@ -36,6 +36,49 @@ export interface CodeAnalysisResult {
 	memoryModel: MemoryModel;
 }
 
+export interface TeachingAgentInsights {
+	errorAnalysis: {
+		concept: string;
+		difficulty: 'beginner' | 'intermediate' | 'advanced';
+		misconception: string;
+		learningObjective: string;
+		confidence: number;
+		evidence: string[];
+		needsAnalogy: boolean;
+		needsQuiz: boolean;
+	};
+	visualizationPlan: {
+		type: 'value_flow' | 'memory_map' | 'traceback_stack' | 'loop_timeline';
+		title: string;
+		description: string;
+		highlight: string[];
+		interactive: boolean;
+		focusLine?: number;
+		steps: string[];
+	};
+	tutorHint: {
+		hint: string;
+		nextAction: string;
+		guidedSteps: string[];
+		revealLevel: 'hint' | 'guided' | 'explain';
+	};
+	analogy?: {
+		analogy: string;
+		mapping: string[];
+		caution: string;
+	};
+	quiz?: {
+		question: string;
+		choices: string[];
+		correctAnswer: string;
+		explanation: string;
+	};
+	agentRun: {
+		mode: 'openai' | 'fallback';
+		selectedAgents: string[];
+	};
+}
+
 export interface TutorInsight {
 	title: string;
 	summary: string;
@@ -49,8 +92,14 @@ export interface TutorInsight {
 	nextAction: string;
 }
 
+export interface BackendTutorResponse extends TutorInsight {
+	codeAnalysis?: CodeAnalysisResult;
+	agentInsights?: TeachingAgentInsights;
+}
+
 export interface TutorPanelState {
 	payload?: ExecutionPayload;
 	insight?: TutorInsight;
 	codeAnalysis?: CodeAnalysisResult;
+	agentInsights?: TeachingAgentInsights;
 }

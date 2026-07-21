@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { analyzeWithBackend } from '../core/backendClient';
 import { clearDiagnostics, createDiagnosticCollection, showDiagnostics } from '../core/diagnostics';
 import { getOutputChannel } from '../core/outputChannel';
 import { sendPayload } from '../core/payloadBus';
@@ -48,18 +49,20 @@ export async function runCurrentJavaFile(): Promise<void> {
 		return;
 	}
 
+	const backendResponse = await analyzeWithBackend({ payload, outputChannel });
+
 	if (runtimeResult.success) {
-		await openTutorPanel({ payload });
+		await openTutorPanel({ payload, backendResponse });
 		vscode.window.showInformationMessage('Java program ran successfully.');
 		return;
 	}
 
 	if (runtimeResult.timedOut) {
-		await openTutorPanel({ payload });
+		await openTutorPanel({ payload, backendResponse });
 		vscode.window.showWarningMessage('Java program timed out. AI Tutor captured the failure details.');
 		return;
 	}
 
-	await openTutorPanel({ payload });
+	await openTutorPanel({ payload, backendResponse });
 	vscode.window.showWarningMessage('Java program failed. Review the AI Tutor view and the Problems panel.');
 }

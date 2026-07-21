@@ -1,47 +1,14 @@
 import React from 'react';
-import type { TutorPanelState, CodeAnalysisResult } from './types';
+import type { TutorPanelState } from './types';
 import { MemoryVisualization } from './visualization';
-
-// ============ MOCK DATA FOR TESTING - REMOVE WHEN BACKEND IS CONNECTED ============
-const MOCK_CODE_ANALYSIS: CodeAnalysisResult = {
-	concept: 'dangling_pointer',
-	confidence: 0.99,
-	errorLine: 8,
-	memoryModel: {
-		variables: [
-			{ id: 'ptr', name: 'ptr', type: 'int*', region: 'stack', declaredLine: 3, initialized: true },
-			{ id: 'x', name: 'x', type: 'int', region: 'stack', declaredLine: 2, initialized: true },
-			{ id: 'heap_data', name: 'data', type: 'int', region: 'heap', declaredLine: 4, initialized: true },
-			{ id: 'arr', name: 'arr', type: 'int[]', region: 'heap', declaredLine: 5, initialized: true },
-		],
-		pointers: [
-			{ id: 'ptr', pointsTo: 'heap_data', state: 'dangling', dereferencedAtLine: 8 },
-		],
-		operations: [
-			{ line: 2, kind: 'declare', target: 'x' },
-			{ line: 3, kind: 'declare', target: 'ptr' },
-			{ line: 4, kind: 'assign', target: 'ptr' },
-			{ line: 5, kind: 'declare', target: 'arr' },
-			{ line: 6, kind: 'assign', target: 'heap_data' },
-			{ line: 7, kind: 'free', target: 'ptr' },
-			{ line: 8, kind: 'dereference', target: 'ptr' },
-		],
-	},
-};
-
-// Set to true to show mock visualization even without real data
-const USE_MOCK_DATA = true;
-// ==================================================================================
 
 interface AppProps {
 	initialState: TutorPanelState;
 }
 
 export function App({ initialState }: AppProps) {
-	const { insight, payload, codeAnalysis } = initialState;
-
-	// Use mock data for testing if enabled
-	const analysisData = USE_MOCK_DATA ? MOCK_CODE_ANALYSIS : codeAnalysis;
+	const { insight, payload, codeAnalysis, agentInsights } = initialState;
+	const analysisData = codeAnalysis;
 
 	if (!payload || !insight) {
 		return (
@@ -54,18 +21,6 @@ export function App({ initialState }: AppProps) {
 						error, traceback, and guided debugging notes.
 					</p>
 				</div>
-
-				{/* Show mock visualization for testing */}
-				{USE_MOCK_DATA && analysisData && (
-					<section style={styles.card}>
-						<h2 style={styles.sectionTitle}>Memory Visualization (Mock Data)</h2>
-						<MemoryVisualization
-							memoryModel={analysisData.memoryModel}
-							errorLine={analysisData.errorLine}
-							concept={analysisData.concept}
-						/>
-					</section>
-				)}
 			</div>
 		);
 	}
@@ -149,6 +104,36 @@ export function App({ initialState }: AppProps) {
 					))}
 				</div>
 			</section>
+
+			{agentInsights && (
+				<section style={styles.card}>
+					<h2 style={styles.sectionTitle}>Agent Insights</h2>
+					<div style={styles.agentGrid}>
+						<div>
+							<p style={styles.issueTitle}>{agentInsights.errorAnalysis.concept.replace(/_/g, ' ')}</p>
+							<p style={styles.detailText}>{agentInsights.errorAnalysis.learningObjective}</p>
+							<p style={styles.detailText}>
+								Mode: {agentInsights.agentRun.mode} - Confidence:{' '}
+								{Math.round(agentInsights.errorAnalysis.confidence * 100)}%
+							</p>
+						</div>
+						<div>
+							<p style={styles.stackLabel}>Likely Misconception</p>
+							<p style={styles.detailText}>{agentInsights.errorAnalysis.misconception}</p>
+						</div>
+						<div>
+							<p style={styles.stackLabel}>Visualization Plan</p>
+							<p style={styles.detailText}>{agentInsights.visualizationPlan.description}</p>
+						</div>
+						{agentInsights.quiz ? (
+							<div>
+								<p style={styles.stackLabel}>Check Understanding</p>
+								<p style={styles.detailText}>{agentInsights.quiz.question}</p>
+							</div>
+						) : null}
+					</div>
+				</section>
+			)}
 
 			{analysisData && analysisData.memoryModel && (
 				<section style={styles.card}>
@@ -274,6 +259,11 @@ const styles: Record<string, React.CSSProperties> = {
 		border: '1px solid #e2e8f0',
 		borderRadius: '14px',
 		padding: '14px',
+	},
+	agentGrid: {
+		display: 'grid',
+		gap: '14px',
+		gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
 	},
 	stackLabel: {
 		fontSize: '14px',
