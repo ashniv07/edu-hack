@@ -1,12 +1,47 @@
 import React from 'react';
-import type { TutorPanelState } from './types';
+import type { TutorPanelState, CodeAnalysisResult } from './types';
+import { MemoryVisualization } from './visualization';
+
+// ============ MOCK DATA FOR TESTING - REMOVE WHEN BACKEND IS CONNECTED ============
+const MOCK_CODE_ANALYSIS: CodeAnalysisResult = {
+	concept: 'dangling_pointer',
+	confidence: 0.99,
+	errorLine: 8,
+	memoryModel: {
+		variables: [
+			{ id: 'ptr', name: 'ptr', type: 'int*', region: 'stack', declaredLine: 3, initialized: true },
+			{ id: 'x', name: 'x', type: 'int', region: 'stack', declaredLine: 2, initialized: true },
+			{ id: 'heap_data', name: 'data', type: 'int', region: 'heap', declaredLine: 4, initialized: true },
+			{ id: 'arr', name: 'arr', type: 'int[]', region: 'heap', declaredLine: 5, initialized: true },
+		],
+		pointers: [
+			{ id: 'ptr', pointsTo: 'heap_data', state: 'dangling', dereferencedAtLine: 8 },
+		],
+		operations: [
+			{ line: 2, kind: 'declare', target: 'x' },
+			{ line: 3, kind: 'declare', target: 'ptr' },
+			{ line: 4, kind: 'assign', target: 'ptr' },
+			{ line: 5, kind: 'declare', target: 'arr' },
+			{ line: 6, kind: 'assign', target: 'heap_data' },
+			{ line: 7, kind: 'free', target: 'ptr' },
+			{ line: 8, kind: 'dereference', target: 'ptr' },
+		],
+	},
+};
+
+// Set to true to show mock visualization even without real data
+const USE_MOCK_DATA = true;
+// ==================================================================================
 
 interface AppProps {
 	initialState: TutorPanelState;
 }
 
 export function App({ initialState }: AppProps) {
-	const { insight, payload } = initialState;
+	const { insight, payload, codeAnalysis } = initialState;
+
+	// Use mock data for testing if enabled
+	const analysisData = USE_MOCK_DATA ? MOCK_CODE_ANALYSIS : codeAnalysis;
 
 	if (!payload || !insight) {
 		return (
@@ -19,6 +54,18 @@ export function App({ initialState }: AppProps) {
 						error, traceback, and guided debugging notes.
 					</p>
 				</div>
+
+				{/* Show mock visualization for testing */}
+				{USE_MOCK_DATA && analysisData && (
+					<section style={styles.card}>
+						<h2 style={styles.sectionTitle}>Memory Visualization (Mock Data)</h2>
+						<MemoryVisualization
+							memoryModel={analysisData.memoryModel}
+							errorLine={analysisData.errorLine}
+							concept={analysisData.concept}
+						/>
+					</section>
+				)}
 			</div>
 		);
 	}
@@ -102,6 +149,17 @@ export function App({ initialState }: AppProps) {
 					))}
 				</div>
 			</section>
+
+			{analysisData && analysisData.memoryModel && (
+				<section style={styles.card}>
+					<h2 style={styles.sectionTitle}>Memory Visualization</h2>
+					<MemoryVisualization
+						memoryModel={analysisData.memoryModel}
+						errorLine={analysisData.errorLine}
+						concept={analysisData.concept}
+					/>
+				</section>
+			)}
 
 			<div style={styles.grid}>
 				<section style={styles.card}>

@@ -92,6 +92,109 @@ function getWebviewHtml(webview: vscode.Webview, currentExtensionUri: vscode.Uri
 	/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>AI Tutor</title>
+	<style>
+		/* React Flow required styles */
+		.react-flow {
+			width: 100%;
+			height: 100%;
+			position: relative;
+			overflow: hidden;
+		}
+		.react-flow__renderer {
+			width: 100%;
+			height: 100%;
+		}
+		.react-flow__zoompane {
+			width: 100%;
+			height: 100%;
+		}
+		.react-flow__pane {
+			cursor: grab;
+		}
+		.react-flow__pane.dragging {
+			cursor: grabbing;
+		}
+		.react-flow__viewport {
+			transform-origin: 0 0;
+		}
+		.react-flow__edges {
+			pointer-events: none;
+			overflow: visible;
+			position: absolute;
+			z-index: 2;
+		}
+		.react-flow__edge-path {
+			stroke: #b1b1b7;
+			stroke-width: 2;
+			fill: none;
+		}
+		.react-flow__edge.animated path {
+			stroke-dasharray: 5;
+			animation: dashdraw 0.5s linear infinite;
+		}
+		@keyframes dashdraw {
+			from { stroke-dashoffset: 10; }
+			to { stroke-dashoffset: 0; }
+		}
+		.react-flow__nodes {
+			pointer-events: none;
+			transform-origin: 0 0;
+		}
+		.react-flow__node {
+			pointer-events: all;
+			cursor: pointer;
+			position: absolute;
+			user-select: none;
+		}
+		.react-flow__handle {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: #555;
+			border: 2px solid #fff;
+			position: absolute;
+		}
+		.react-flow__handle-top { top: -4px; left: 50%; transform: translateX(-50%); }
+		.react-flow__handle-bottom { bottom: -4px; left: 50%; transform: translateX(-50%); }
+		.react-flow__handle-left { left: -4px; top: 50%; transform: translateY(-50%); }
+		.react-flow__handle-right { right: -4px; top: 50%; transform: translateY(-50%); }
+		.react-flow__background {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+		.react-flow__controls {
+			position: absolute;
+			left: 10px;
+			bottom: 10px;
+			z-index: 5;
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+		}
+		.react-flow__controls-button {
+			width: 26px;
+			height: 26px;
+			border: 1px solid #eee;
+			border-radius: 4px;
+			background: #fff;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.react-flow__minimap {
+			position: absolute;
+			right: 10px;
+			bottom: 10px;
+			z-index: 5;
+		}
+		.react-flow__attribution {
+			display: none;
+		}
+	</style>
 </head>
 <body>
 	<div id="root"></div>

@@ -58,9 +58,9 @@
       "title": "AI Tutor",
       "properties": {
         "hackyayAiTutor.javaPath": {
-		  "type": "string",
-		  "default": "java",
-		  "description": "Java executable used to run the current Java file. Java 11 or later is required for source-file mode."
+          "type": "string",
+          "default": "java",
+          "description": "Java executable used to run the current Java file. Java 11 or later is required for source-file mode."
         },
         "hackyayAiTutor.runtimeTimeoutMs": {
           "type": "number",
@@ -104,6 +104,8 @@
   "dependencies": {
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "@xyflow/react": "^12.11.2",
+    "framer-motion": "^12.42.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   }

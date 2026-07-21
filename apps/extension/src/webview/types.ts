@@ -1,1 +1,1 @@
-export type { TutorPanelState } from '../tutor/types';
+export type { TutorPanelState, CodeAnalysisResult } from '../tutor/types';
